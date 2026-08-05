@@ -52,7 +52,9 @@ class ProfileUpdate(BaseModel):
 
     @field_validator("date_of_birth")
     @classmethod
-    def updated_date_of_birth_must_be_in_the_past(cls, value: date | None) -> date | None:
+    def updated_date_of_birth_must_be_in_the_past(
+        cls, value: date | None
+    ) -> date | None:
         if value is not None and value >= date.today():
             raise ValueError("must be in the past")
         return value

@@ -10,7 +10,10 @@ from app.schemas.profile import ProfileCreate, ProfileUpdate
 def create_profile(db: Session, user: User, payload: ProfileCreate) -> Profile:
     existing_profile = db.scalar(select(Profile).where(Profile.user_id == user.id))
     if existing_profile:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="A profile already exists for this user")
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="A profile already exists for this user",
+        )
 
     profile = Profile(user_id=user.id, **payload.model_dump())
     db.add(profile)
@@ -22,7 +25,9 @@ def create_profile(db: Session, user: User, payload: ProfileCreate) -> Profile:
 def get_profile(db: Session, user: User) -> Profile:
     profile = db.scalar(select(Profile).where(Profile.user_id == user.id))
     if profile is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Profile not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Profile not found"
+        )
     return profile
 
 

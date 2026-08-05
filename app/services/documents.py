@@ -47,7 +47,11 @@ def create_document(
 
 
 def get_document(db: Session, user_id: uuid.UUID, document_id: uuid.UUID) -> Document:
-    document = db.scalar(select(Document).where(Document.id == document_id, Document.user_id == user_id))
+    document = db.scalar(
+        select(Document).where(Document.id == document_id, Document.user_id == user_id)
+    )
     if document is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Document not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Document not found"
+        )
     return document
