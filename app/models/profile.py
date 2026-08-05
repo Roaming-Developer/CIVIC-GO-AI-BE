@@ -29,9 +29,15 @@ class SalaryRange(str, enum.Enum):
 class Profile(Base):
     __tablename__ = "profiles"
 
-    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
+    )
     user_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("users.id"), unique=True, nullable=False, index=True
+        UUID(as_uuid=True),
+        ForeignKey("users.id"),
+        unique=True,
+        nullable=False,
+        index=True,
     )
     first_name: Mapped[str] = mapped_column(String(100), nullable=False)
     last_name: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -39,16 +45,29 @@ class Profile(Base):
     district: Mapped[str] = mapped_column(String(100), nullable=False)
     state: Mapped[str] = mapped_column(String(100), nullable=False)
     occupation: Mapped[Occupation] = mapped_column(
-        Enum(Occupation, name="occupation", values_callable=lambda enum_class: [item.value for item in enum_class]),
+        Enum(
+            Occupation,
+            name="occupation",
+            values_callable=lambda enum_class: [item.value for item in enum_class],
+        ),
         nullable=False,
     )
     salary_range: Mapped[SalaryRange] = mapped_column(
-        Enum(SalaryRange, name="salary_range", values_callable=lambda enum_class: [item.value for item in enum_class]),
+        Enum(
+            SalaryRange,
+            name="salary_range",
+            values_callable=lambda enum_class: [item.value for item in enum_class],
+        ),
         nullable=False,
     )
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
     )
 
     user = relationship("User", back_populates="profile")

@@ -27,6 +27,8 @@ def upload_document(
 
 
 @router.get("/{document_id}", response_model=DocumentResponse)
-def get_my_document(document_id: UUID, current_user: CurrentUser, db: DBSession) -> DocumentResponse:
+def get_my_document(
+    document_id: UUID, current_user: CurrentUser, db: DBSession
+) -> DocumentResponse:
     """Return the authenticated user's document processing state and results."""
     return get_document(db, current_user.id, document_id)
